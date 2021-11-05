@@ -5,12 +5,14 @@ Created on Sat Jan  9 00:10:18 2021
 
 @author: sxu
 """
-from yahoofinancials import YahooFinancials
-import numpy as np
-import json as js
 import datetime as dt
+import json as js
 import os.path
 from time import sleep
+
+import numpy as np
+from yahoofinancials import YahooFinancials
+
 
 class cookFinancials(YahooFinancials):
     ticker = ''
@@ -496,7 +498,23 @@ class cookFinancials(YahooFinancials):
         if localHighestPrice == localLowestPrice:
             return False, -1, -1, -1, -1
         return flag, localHighestDate, localHighestPrice, localLowestDate, localLowestPrice
-                
+
+    def is_consolidating(df, percentage=2):
+        recent_candlesticks = df[-15:]
+
+        max_close = recent_candlesticks['Close'].max()
+        min_close = recent_candlesticks['Close'].min()
+
+        threshold = 1 - (percentage / 100)
+        if min_close > (max_close * threshold):
+            return True
+
+        return False
+
+    def find_vcp(self, startDate):
+        self.priceData
+
+
     def find_volatility_contraction_pattern(self, startDate):
         recordVCP = []
         self.m_recordVCP = []
@@ -655,7 +673,7 @@ class cookFinancials(YahooFinancials):
 class batch_process:
     def __init__(self, tickers, section):
         self.tickers = tickers
-        self.jsfile = os.path.join('../result', section)
+        self.jsfile = os.path.join('.\\result', section)
         with open(self.jsfile, "w") as f:
             s = {"data":[]}
             js.dump(s, f, indent = 4)

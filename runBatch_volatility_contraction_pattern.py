@@ -5,29 +5,27 @@ Created on Sat Jan  9 00:21:01 2021
 
 @author: sxu
 """
-from importlib import reload # python 2.7 does not require this
 import sys
-sys.path.insert(0, '../src/')
-import cookStock
-reload(cookStock)
+from importlib import reload  # python 2.7 does not require this
+
 from cookStock import *
 import matplotlib.pyplot as plt
 
-generatedDate = '4_9_2021'
-generatedInd = 'Service'
+generatedDate = '4_12_2021'
+generatedInd = 'Tech'
 name = generatedInd + '_superStocks_' + generatedDate
-with open(os.path.join('../result', name+'.json')) as f:
+with open(os.path.join('./result', name+'.json')) as f:
     data = js.load(f)
-print(data)
+###print(data)
 tickers = data['data'][0]
 
 
-jsfile = os.path.join('../result', name+'_vcp_study.json')
+jsfile = os.path.join('./result', name+'_vcp_study.json')
 with open(jsfile, "w") as f:
     w = {"data":[]}
     js.dump(w, f, indent = 4)
     
-figFolder = os.path.join('../result', 'picture_' + generatedDate, generatedInd)
+figFolder = os.path.join('./result', 'picture_' + generatedDate, generatedInd)
 if not os.path.exists(figFolder):
     os.makedirs(figFolder)
                 
@@ -69,7 +67,7 @@ for ticker in tickers:
         ax[1].set_ylabel("volume (m)",color="green",fontsize=14)
         #ax[1].set_ylim([0, 100])
         
-        display(x.get_highest_in5days(date_from))
+        ###display(x.get_highest_in5days(date_from))
         
         counter, record = x.find_volatility_contraction_pattern(date_from)
         
@@ -88,16 +86,16 @@ for ticker in tickers:
             #             bbox_inches='tight')
             print('footprint:')
             footprint = x.get_footPrint()
-            display(footprint)
+            ###display(footprint)
             print('is a good pivot?')
             isGoodPivot, currentPrice, supportPrice, pressurePrice = x.is_pivot_good()
-            display(isGoodPivot)
+            ###display(isGoodPivot)
             print('is a deep correction?')
             isDeepCor = x.is_correction_deep()
-            display(isDeepCor)
+            ###display(isDeepCor)
             print('is demand dried?')
             isDemandDry, startDate, endDate, volume_ls, slope, interY = x.is_demand_dry()
-            display(isDemandDry)
+            ###display(isDemandDry)
             
             s = {ticker:{'current price':str(currentPrice), 'support price':str(supportPrice), 'pressure price':str(pressurePrice), \
                          'is_good_pivot':str(isGoodPivot), 'is_deep_correction':str(isDeepCor), 'is_demand_dry': str(isDemandDry)}}    
@@ -113,15 +111,16 @@ for ticker in tickers:
             x_axis = np.array(x_axis)
             y = slope*x_axis-slope*ind + volume_ls[0]
             ax[1].plot(np.asarray(date)[x_axis], y/10**6, color="red",linewidth=4)
-            fig.show()
+            ###fig.show()
             
             figName = os.path.join(figFolder, ticker+'.jpg')
             #only save the ones passing all criterion
-            if isGoodPivot and not(isDeepCor) and isDemandDry:
+            if isGoodPivot and not isDeepCor and isDemandDry:
                 fig.savefig(figName,
                             format='jpeg',
                             dpi=100,
                             bbox_inches='tight')
+
     except Exception:
         print("error!")
         pass

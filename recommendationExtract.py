@@ -5,13 +5,14 @@ Created on Sat Jan  9 00:49:51 2021
 
 @author: sxu
 """
-import numpy as np
-import json as js
 import datetime as dt
-import requests
-import pandas as pd 
-from pandas_datareader import DataReader
+import json as js
 import time
+
+import numpy as np
+import pandas as pd
+import requests
+from pandas_datareader import DataReader
 
 #ready json file to get ticker
 with open('result/Tech_superStocks_2_5_2021.json') as f:

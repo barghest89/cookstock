@@ -5,8 +5,9 @@ Created on Sat Jan  9 00:10:18 2021
 
 @author: sxu
 """
-from importlib import reload # python 2.7 does not require this
 import sys
+from importlib import reload  # python 2.7 does not require this
+
 sys.path.insert(0, '../src/')
 import cookStock
 reload(cookStock)

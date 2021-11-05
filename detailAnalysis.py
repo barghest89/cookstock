@@ -5,19 +5,15 @@ Created on Sun Jan 17 22:08:25 2021
 
 @author: sxu
 """
-import urllib.request as urllib2
-from bs4 import BeautifulSoup
-import pandas as pd
-import os.path
-import numpy as np
-import json as js
-import datetime as dt
-import os.path
 import re
 import time
+import urllib.request as urllib2
+from importlib import reload  # python 2.7 does not require this
 
-from importlib import reload # python 2.7 does not require this
+from bs4 import BeautifulSoup
+
 import cookStock
+
 reload(cookStock)
 from cookStock import *
 
